@@ -38,7 +38,7 @@ try {
         to="/dashboard/incomes"
         className="text-lg font-semibold text-green-300 hover:text-green-200"
       >
-        📊 View Incomes
+        📊 View Incomes &rarr;
       </Link>
 
       <h2 className="text-4xl font-bold text-green-400 mt-4">

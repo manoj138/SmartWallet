@@ -12,7 +12,7 @@ const auth = (req, res, next) => {
         req.user = decoded;
         next();
     } catch (error) {
-        res.status(422).json({ msg: "Token not valid" });
+        res.status(422).json({error,  msg: "Token not valid" });
     }
 }
  module.exports = auth;

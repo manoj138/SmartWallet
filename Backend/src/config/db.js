@@ -6,7 +6,7 @@ const sequelize = new Sequelize(
         storage:'./src/config/database.sqlite',
         logging:false
     }
-)
+) 
 sequelize.authenticate()
 
 .then(()=>{
