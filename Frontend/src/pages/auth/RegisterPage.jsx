@@ -19,7 +19,6 @@ const inputHandler = (e)=>{
 const submitHandler = async (e)=>{
    e.preventDefault();
     try {
-        console.log("🚀 ~ submitHandler ~ regData:", regData)
         await Api.post('/register', regData)
         navigate('/')
     } catch (error) {

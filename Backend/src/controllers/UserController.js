@@ -6,7 +6,7 @@ const bcrypt = require("bcryptjs");
 const register = async (req, res) => {
     try {
         const data = req.body;
-        const hashPassword = await bcrypt.hash(data.password, 10)
+        const hashPassword = await bcrypt.hash(data.password, 10);
         const user = await User.create({ ...data, password: hashPassword });
         res.status(201).json({ data: user, success: true, msg: "user Register sucessfully" });
     } catch (error) {
@@ -22,13 +22,13 @@ const login = async (req, res) => {
 
         const findUser = await User.findOne({
             where: { email: data.email }
-        })
+        });
         if (!findUser) {
-            return res.status(401).json({ success: false, msg: "Invalid Credential" })
+            return res.status(401).json({ success: false, msg: "Invalid Credential" });
         }
         const matchpass = await bcrypt.compare(data.password, findUser.password);
         if (!matchpass) {
-            return res.status(401).json({ success: false, msg: "Invalid Credentials" })
+            return res.status(401).json({ success: false, msg: "Invalid Credentials" });
         }
 
         const payload = {
