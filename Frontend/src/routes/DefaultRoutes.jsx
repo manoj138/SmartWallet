@@ -11,6 +11,8 @@ import IncomeEdit from "../pages/income/IncomeEdit";
 import ExpenseCreate from "../pages/expense/ExpenseCreate";
 import ExpenseEdit from "../pages/expense/ExpenseEdit";
 import ExpensesIndex from "../pages/expense/ExpensesIndex";
+import SettingPage from "../pages/admin/SettingPage";
+import Profilepage from "../pages/admin/Profilepage";
 
 
 const DefaultRoutes = () => {
@@ -37,6 +39,9 @@ const DefaultRoutes = () => {
       {/* Protected Routes */}
       <Route path="/dashboard" element={<ProtectedLayout />}>
         <Route index element={<DashboardPage />} />
+        <Route path="settings" element={<SettingPage />} />
+        <Route path="profile" element={<Profilepage />} />
+        
         {/* Income */}
         <Route path="incomes" element={<IncomeIndex />} />
         <Route path="incomes/create" element={<IncomeCreate />} />

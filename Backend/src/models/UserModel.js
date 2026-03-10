@@ -67,6 +67,10 @@ const User = sequelize.define(
                     msg:"Status is required"
                 }
             }
+        },
+        user_image:{
+           type:DataTypes.STRING,
+           allowNull:true
         }
         
     },{
