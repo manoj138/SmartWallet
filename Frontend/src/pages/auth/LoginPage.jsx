@@ -2,7 +2,8 @@ import React from 'react'
 import { useState } from 'react'
 import { Api, stores } from '../../services/Api';
 import { Link, useNavigate } from 'react-router-dom';
-
+import { motion } from "framer-motion";
+import { IoMailOutline, IoLockClosedOutline, IoRocketOutline } from "react-icons/io5";
 
 const LoginPage = () => {
     const [logData, setLogData]= useState({});
@@ -28,60 +29,99 @@ try {
  
 }
   return (
-  <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-black via-gray-900 to-gray-950 text-white">
 
-  <div className="backdrop-blur-xl bg-white/5 border border-white/10 rounded-3xl p-10 shadow-2xl w-[400px]">
+<div className="min-h-screen flex items-center justify-center bg-[#050505] relative overflow-hidden">
+      
+      {/* Background Decorative Glows */}
+      <div className="absolute top-[-10%] left-[-10%] w-[40%] h-[40%] bg-purple-900/20 rounded-full blur-[120px]"></div>
+      <div className="absolute bottom-[-10%] right-[-10%] w-[40%] h-[40%] bg-indigo-900/20 rounded-full blur-[120px]"></div>
 
-    <h1 className="text-3xl font-bold text-center mb-6 bg-gradient-to-r from-purple-400 via-pink-400 to-indigo-400 bg-clip-text text-transparent">
-      🔐 Login
-    </h1>
-
-    <form onSubmit={submitHandler} className="flex flex-col gap-4">
-
-      <div>
-        <label className="text-gray-300">📧 Email</label>
-        <input
-          type="email"
-          name="email"
-          value={logData.email || ""}
-          onChange={inputHandler}
-          className="w-full mt-1 p-3 rounded-lg bg-white/10 border border-white/10 focus:outline-none focus:border-indigo-400"
-        />
-      </div>
-
-      <div>
-        <label className="text-gray-300">🔑 Password</label>
-        <input
-          type="password"
-          name="password"
-          value={logData.password || ""}
-          onChange={inputHandler}
-          className="w-full mt-1 p-3 rounded-lg bg-white/10 border border-white/10 focus:outline-none focus:border-indigo-400"
-        />
-      </div>
-
-      <button
-        type="submit"
-        className="mt-4 py-3 rounded-xl bg-gradient-to-r from-indigo-500 to-purple-600 hover:scale-105 transition shadow-lg"
+      <motion.div 
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        className="relative backdrop-blur-2xl bg-white/[0.02] border border-white/[0.08] rounded-[2.5rem] p-10 shadow-[0_20px_50px_rgba(0,0,0,0.5)] w-full max-w-[420px] mx-4"
       >
-        🚀 Login
-      </button>
+        {/* Header Section */}
+        <div className="text-center mb-10">
+          <div className="w-16 h-16 bg-gradient-to-tr from-purple-600 to-indigo-600 rounded-2xl flex items-center justify-center mx-auto mb-4 shadow-[0_0_30px_rgba(124,58,237,0.3)]">
+            <span className="text-3xl">🏦</span>
+          </div>
+          <h1 className="text-3xl font-black tracking-tight bg-gradient-to-r from-white via-gray-200 to-gray-500 bg-clip-text text-transparent">
+            Welcome Back
+          </h1>
+          <p className="text-gray-500 text-sm mt-2 font-medium">Please enter your details to login.</p>
+        </div>
 
-    </form>
+        <form onSubmit={submitHandler} className="flex flex-col gap-6">
+          
+          {/* Email Field */}
+          <div className="space-y-2">
+            <label className="text-xs uppercase tracking-widest text-gray-500 font-bold ml-1">Email Address</label>
+            <div className="relative group">
+              <span className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-500 group-focus-within:text-purple-400 transition-colors">
+                <IoMailOutline size={20} />
+              </span>
+              <input
+                type="email"
+                name="email"
+                placeholder="name@example.com"
+                value={logData.email || ""}
+                onChange={inputHandler}
+                className="w-full pl-12 pr-4 py-4 rounded-2xl bg-black/40 border border-white/5 focus:outline-none focus:border-purple-500/50 focus:bg-white/[0.05] transition-all duration-300 text-gray-200 placeholder:text-gray-700 shadow-inner"
+              />
+            </div>
+          </div>
 
-    <p className="text-center text-gray-400 mt-6">
-      Don't have an account?{" "}
-      <Link
-        to="/registers"
-        className="text-indigo-400 hover:text-indigo-300"
-      >
-        ✨ Sign Up
-      </Link>
-    </p>
+          {/* Password Field */}
+          <div className="space-y-2">
+            <div className="flex justify-between items-center ml-1">
+              <label className="text-xs uppercase tracking-widest text-gray-500 font-bold">Password</label>
+              <Link to="#" className="text-[10px] text-purple-400 hover:underline tracking-tighter uppercase">Forgot Password?</Link>
+            </div>
+            <div className="relative group">
+              <span className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-500 group-focus-within:text-purple-400 transition-colors">
+                <IoLockClosedOutline size={20} />
+              </span>
+              <input
+                type="password"
+                name="password"
+                placeholder="••••••••"
+                value={logData.password || ""}
+                onChange={inputHandler}
+                className="w-full pl-12 pr-4 py-4 rounded-2xl bg-black/40 border border-white/5 focus:outline-none focus:border-purple-500/50 focus:bg-white/[0.05] transition-all duration-300 text-gray-200 placeholder:text-gray-700 shadow-inner"
+              />
+            </div>
+          </div>
 
-  </div>
+          {/* Login Button */}
+          <motion.button
+            whileHover={{ scale: 1.02 }}
+            whileTap={{ scale: 0.98 }}
+            type="submit"
+            className="mt-4 group relative flex items-center justify-center gap-3 py-4 rounded-2xl bg-gradient-to-r from-purple-600 to-indigo-600 text-white font-bold shadow-[0_10px_20px_rgba(124,58,237,0.3)] overflow-hidden"
+          >
+            <div className="absolute inset-0 bg-white/20 opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none"></div>
+            <IoRocketOutline size={20} className="group-hover:translate-x-1 group-hover:-translate-y-1 transition-transform" />
+            <span>Sign In to Account</span>
+          </motion.button>
 
-</div>
+        </form>
+
+        {/* Footer Link */}
+        <p className="text-center text-gray-500 mt-8 text-sm font-medium">
+          New to SmartWallet?{" "}
+          <Link
+            to="/registers"
+            className="text-white hover:text-purple-400 font-bold transition-colors underline-offset-4 hover:underline"
+          >
+            Create an account
+          </Link>
+        </p>
+
+      </motion.div>
+    </div>
+
+
   )
 }
 

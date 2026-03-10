@@ -12,6 +12,7 @@ import ExpenseCreate from "../pages/expense/ExpenseCreate";
 import ExpenseEdit from "../pages/expense/ExpenseEdit";
 import ExpensesIndex from "../pages/expense/ExpensesIndex";
 
+
 const DefaultRoutes = () => {
   const navigate = useNavigate();
   const token = sessionStorage.getItem("token");
