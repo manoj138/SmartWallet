@@ -71,6 +71,9 @@ const DashboardPage = () => {
 
   return (
     <div className="min-h-screen flex bg-[#050505] text-white font-sans selection:bg-indigo-500/30">
+
+
+
       <Asidebar />
       <div className="flex-1 flex flex-col min-w-0">
         <div className="sticky top-0 z-[100] w-full backdrop-blur-md bg-[#050505]/60">

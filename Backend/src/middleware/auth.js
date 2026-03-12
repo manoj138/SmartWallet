@@ -4,7 +4,7 @@ const auth = (req, res, next) => {
     const token = req.header('Authorization')?.replace("Bearer ", ""); 
 
     if (!token) {
-        return res.status(401).json({ msg: "No token, Access Denied" });
+        return res.status(401).json({ success:false, msg: "No token, Access Denied" });
     }
 
     try {

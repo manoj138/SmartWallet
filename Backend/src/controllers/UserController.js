@@ -2,6 +2,8 @@ const errorHandler = require("../helper/errorHandler");
 const jwt = require("jsonwebtoken");
 const User = require("../models/UserModel");
 const bcrypt = require("bcryptjs");
+const { saveRAMFiles } = require("../middleware/memoryUpload");
+const { deleteUploadedFiles } = require("../middleware/deleteUpload");
 
 const register = async (req, res) => {
     try {
@@ -12,7 +14,7 @@ const register = async (req, res) => {
     } catch (error) {
         console.log(error)
         const errors = errorHandler(error)
-        res.status(500).json({ errors: errors, sucesss: false, msg: "user Register failed" });
+        res.status(400).json({ errors: errors, sucesss: false, msg: "user Register failed" });
     }
 }
 
@@ -49,12 +51,12 @@ const login = async (req, res) => {
 const index = async (req, res) => {
     try {
         let users;
-        if(req.user.status === "admin"){
+        if (req.user.status === "admin") {
             users = await User.findAll()
-        }else{
-            users = await User.findAll({where:{id:req.user.id}})
+        } else {
+            users = await User.findAll({ where: { id: req.user.id } })
         }
-        res.status(200).json({success:true, data :users})
+        res.status(200).json({ success: true, data: users })
     } catch (error) {
         console.log(error)
         const errors = errorHandler(error)
@@ -66,7 +68,7 @@ const find = async (req, res) => {
     try {
         const user = await User.findByPk(req.params.id)
         if (!user) {
-            return res.status(404).json({ error, msg: "user not found" })
+            return res.status(404).json({ success: false, msg: "user not found" })
         }
         res.status(200).json({ success: true, data: user })
     } catch (error) {
@@ -77,31 +79,47 @@ const find = async (req, res) => {
 }
 
 
-const upadte = async (req, res) => {
+const update = async (req, res) => {
     const data = req.body;
     try {
-const user = await User.findByPk(req.params.id);
-  if (!user) {
-            return res.status(404).json({ error, msg: "user not found" })
-        }
-        await user.update(data);
-         res.status(200).json({ success: true, data: user, msg:"user update sucessfully"})
-    } catch (error) {
+        const user = await User.findByPk(req.params.id);
+        console.log(user);
 
+        if (!user) {
+            return res.status(404).json({ success: false, msg: "user not found" })
+        }
+
+        const oldProfileImage = user.user_image;
+        
+        await user.update(data);
+        await saveRAMFiles(req.tempFiles);
+        
+        if (data.user_image !== oldProfileImage) {
+            deleteUploadedFiles({ file: oldProfileImage });
+        }
+
+        res.status(200).json({ success: true, data: user, msg: "user update sucessfully" })
+    } catch (error) {
+        console.log(error)
+        const errors = errorHandler(error)
+        res.status(500).json({ errors: errors, sucesss: false, msg: "Something went worng" });
     }
 }
 
 const deleteU = async (req, res) => {
     try {
-  const user = await User.findByPk(req.params.id);
-   if (!user) {
+        const user = await User.findByPk(req.params.id);
+        if (!user) {
             return res.status(404).json({ error, msg: "user not found" })
         }
+         deleteUploadedFiles({ file: user.user_image });
         await user.destroy();
-         res.status(200).json({ success: true, data: user, msg:"user delete sucessfully"})
+        res.status(200).json({ success: true, data: user, msg: "user delete sucessfully" })
 
     } catch (error) {
-
+        console.log(error)
+        const errors = errorHandler(error)
+        res.status(500).json({ errors: errors, sucesss: false, msg: "Something went worng" });
     }
 }
 
@@ -110,8 +128,8 @@ module.exports = {
     register,
 
     index,
-    
+
     find,
-    upadte,
+    update,
     deleteU
 }

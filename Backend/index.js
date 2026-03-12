@@ -6,17 +6,24 @@ const app = express();
 
 const cors = require('cors');
 
+const path = require('path')
+
 const PORT = process.env.PORT;
+
+app.use(express.static(path.join(__dirname, "public")))
+
 const UserRoutes = require('./src/routes/UserRoutes');
 const IncomeRoutes = require('./src/routes/IncomeRoutes');
 const ExpenseRoutes = require('./src/routes/ExpenseRoutes');
+
+
 app.use(express.json());
 
 app.use(cors())
 
 app.use('/api', UserRoutes);
-app.use('/api/income',  IncomeRoutes);
-app.use('/api/expense',  ExpenseRoutes);
+app.use('/api/income', IncomeRoutes);
+app.use('/api/expense', ExpenseRoutes);
 
 
 app.get('/', (req, res) => {
